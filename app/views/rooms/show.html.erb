@@ -1,0 +1,39 @@
+<style>
+td.timestamp {
+  font-weight: bold;
+  padding-right: 16px;
+}
+</style>
+
+<h1>Chat room test</h1>
+
+<div>
+  <table id="log">
+    <% if @chats.empty? %>
+      <tr><td colspan="2">It's empty</td></tr>
+    <% else %>
+      <% @chats.each do |chat| %>
+        <tr valign="top">
+          <% data = chat.split('||') %>
+          <td class="timestamp"><%= data[0] %></td>
+          <td><%= data[1] %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
+</div>
+
+<form>
+  <textarea placeholder="eg: Type something"></textarea>
+  <input type="submit" value="send" />
+</form>
+
+<script>
+$('form').submit(function(e) {
+  e.preventDefault();
+  var text = $('textarea').val();
+  $('textarea').val('');
+  
+  App.room.speak(text);
+});
+</script>
